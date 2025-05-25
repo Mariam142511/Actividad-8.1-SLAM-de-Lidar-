@@ -1,4 +1,3 @@
-
 %% Simulation setup
 % Define Vehicle
 R = 0.1;                        % Wheel radius [m]
@@ -7,7 +6,7 @@ dd = DifferentialDrive(R,L);
 
 % Sample time and time array
 sampleTime = 0.1;              % Sample time [s]
-tVec = 0:sampleTime:65;        % Time array
+tVec = 0:sampleTime:110;        % Time array
 
 % Initial conditions
 initPose = [1;2;0];            % Initial pose (x y theta)
@@ -45,14 +44,15 @@ waypoints = [initPose(1:2)';
              2 10;
              11 8;
              8 2;
-             2  10;
+             11 8;
+             2 10;
              1  2];
 
 % Pure Pursuit Controller
 controller = controllerPurePursuit;
 controller.Waypoints = waypoints;
-controller.LookaheadDistance = 0.75;
-controller.DesiredLinearVelocity = 0.50; 
+controller.LookaheadDistance = 0.8;%0.5
+controller.DesiredLinearVelocity = 0.6; %0.75
 controller.MaxAngularVelocity = pi; 
 
 % Vector Field Histogram (VFH) for obstacle avoidance
@@ -62,7 +62,7 @@ vfh.NumAngularSectors = 36; %36
 vfh.HistogramThresholds = [5 10]; % 5y 10
 vfh.RobotRadius = L;
 vfh.SafetyDistance = L;
-vfh.MinTurningRadius = 0.1;%0.25
+vfh.MinTurningRadius = 0.25;%0.25
 
 %% Simulation loop
 r = rateControl(1/sampleTime);
